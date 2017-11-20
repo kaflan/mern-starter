@@ -1,11 +1,11 @@
 import Post from './models/post';
+import Comment from './models/comment';
 
 export default function () {
   Post.count().exec((err, count) => {
     if (count > 0) {
       return;
     }
-
     const content1 = `Sed ut perspiciatis unde omnis iste natus error
       sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
       eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae
@@ -34,13 +34,47 @@ export default function () {
       qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem
       ipsum quia dolor sit amet.`;
 
-    const post1 = new Post({ name: 'Admin', title: 'Hello MERN', slug: 'hello-mern', cuid: 'cikqgkv4q01ck7453ualdn3hd', content: content1 });
-    const post2 = new Post({ name: 'Admin', title: 'Lorem Ipsum', slug: 'lorem-ipsum', cuid: 'cikqgkv4q01ck7453ualdn3hf', content: content2 });
-
+    const post1 = new Post({
+      name: 'Admin',
+      title: 'Hello MERN',
+      slug: 'hello-mern',
+      cuid: 'cikqgkv4q01ck7453ualdn3hd',
+      content: content1,
+    });
+    const post2 = new Post({
+      name: 'Admin',
+      title: 'Lorem Ipsum',
+      slug: 'lorem-ipsum',
+      cuid: 'cikqgkv4q01ck7453ualdn3hf',
+      content: content2,
+    });
+    const comment1 = new Comment({
+      author: 'Mr. Ass',
+      body: content1,
+      owner: post1,
+      cuid: 'aimmasterfuckyeach12345',
+    });
+    const comment2 = new Comment({
+      author: 'Joe Black',
+      body: content1,
+      owner: post1,
+      cuid: 'aimmasterfuckyeach45678',
+    });
+    const comment3 = new Comment({
+      author: 'Joe Black',
+      body: content2,
+      owner: post2,
+      cuid: 'aimmasterfuckyeach98765',
+    });
     Post.create([post1, post2], (error) => {
       if (!error) {
         // console.log('ready to go....');
       }
+      Comment.create([comment1, comment2, comment3], commentErr => {
+        if (!commentErr) {
+          // console.log('Successfully created 3 comments');
+        }
+      });
     });
   });
 }

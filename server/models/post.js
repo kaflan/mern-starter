@@ -6,8 +6,14 @@ const postSchema = new Schema({
   title: { type: 'String', required: true },
   content: { type: 'String', required: true },
   slug: { type: 'String', required: true },
-  cuid: { type: 'String', required: true },
+  cuid: { type: 'String', required: true, unique: true },
   dateAdded: { type: 'Date', default: Date.now, required: true },
+});
+
+postSchema.virtual('comments', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'owner',
 });
 
 export default mongoose.model('Post', postSchema);
